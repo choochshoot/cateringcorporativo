@@ -1,0 +1,639 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomate Culinario - Servicios Corporativos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #00ff88 0%, #ffff00 50%, #ff1493 100%);
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-50px) rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1a1a1a, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: linear-gradient(90deg, #00ff88, #ffff00);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,255,136,0.3);
+        }
+
+        .info-banner h2 {
+            color: #1a1a1a;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .info-banner p {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #00ff88, #ffff00, #ff1493);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .menu-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,255,136,0.2);
+        }
+
+        .menu-item-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu-item h3 {
+            color: #00ff88;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .menu-item p {
+            color: #cccccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffff00, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #00ff88, #ffff00);
+            color: #1a1a1a;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,255,136,0.3);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,255,136,0.5);
+            background: linear-gradient(135deg, #ffff00, #ff1493);
+        }
+
+        /* Categories */
+        .category-section {
+            margin: 60px 0;
+        }
+
+        .category-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #00ff88, #ffff00, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 3px solid #00ff88;
+        }
+
+        .footer h3 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .footer p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .header-content {
+                gap: 15px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .menu-item {
+                padding: 20px;
+            }
+        }
+
+        /* Custom Cursor - Kawaii Tomato */
+        body {
+            cursor: none;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        .tomato-cursor {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff3333);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .tomato-cursor::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 12px;
+            background: #4CAF50;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 
+                -6px -2px 0 -2px #4CAF50,
+                6px -2px 0 -2px #4CAF50;
+        }
+
+        .tomato-cursor::after {
+            content: '😊';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));
+        }
+
+        .custom-cursor:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Cursor effects on hover */
+        .whatsapp-btn:hover ~ .custom-cursor,
+        .menu-item:hover ~ .custom-cursor {
+            transform: scale(1.3) rotate(10deg);
+        }
+
+        .whatsapp-btn:hover ~ .custom-cursor .tomato-cursor {
+            animation: bounce 0.5s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.5); }
+            50% { box-shadow: 0 0 40px rgba(255,255,0,0.7); }
+        }
+
+        .menu-item:nth-child(odd) {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .menu-item:nth-child(even) {
+            animation: glow 3s ease-in-out infinite 1.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor">
+        <div class="tomato-cursor"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="https://i.imgur.com/VfcTMiK.png" alt="Tomate Culinario Logo" class="logo">
+                <h1>🍅 TOMATE CULINARIO</h1>
+                <p class="subtitle">Servicios Gastronómicos Corporativos Premium</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="info-banner">
+            <h2>📋 Información Importante</h2>
+            <p>Cada charola es para 8 a 10 personas • Precios + IVA</p>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🍽️ Platillos Principales</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Soufflé de Pollo en Mole</h3>
+                        <p>Delicioso soufflé con el tradicional sabor del mole mexicano</p>
+                        <div class="price">$1,650.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Soufflé%20de%20Pollo%20en%20Mole" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Chiles Rellenos: Pollo o Carne</h3>
+                        <p>Auténticos chiles rellenos con tu proteína favorita</p>
+                        <div class="price">$1,850.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Chiles%20Rellenos%20de%20Pollo%20o%20Carne" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Enchiladas Verdes con Queso y Pollo</h3>
+                        <p>Enchiladas tradicionales bañadas en salsa verde</p>
+                        <div class="price">$1,250.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Enchiladas%20Verdes%20con%20Queso%20y%20Pollo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Lasaña de Carne</h3>
+                        <p>Incluye una baguette natural</p>
+                        <div class="price">$1,550.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Carne" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Lasaña de Espinaca a los Tres Quesos</h3>
+                        <p>Incluye una baguette natural</p>
+                        <div class="price">$1,750.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Espinaca%20a%20los%20Tres%20Quesos" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Lasaña de Pollo Tipo Tinga</h3>
+                        <p>Incluye una baguette natural</p>
+                        <div class="price">$1,650.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Pollo%20Tipo%20Tinga" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Espagueti a la Boloñesa</h3>
+                        <p>Pasta italiana con salsa boloñesa tradicional</p>
+                        <div class="price">$1,450.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Espagueti%20a%20la%20Boloñesa" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Soufflé de Papa, Jamón Pavo, Gouda y Parmesano</h3>
+                        <p>Exquisita combinación de sabores europeos</p>
+                        <div class="price">$1,450.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Soufflé%20de%20Papa%20Jamón%20Pavo%20Gouda%20y%20Parmesano" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🌮 Comida Mexicana</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Flautas de Pollo con Todo</h3>
+                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
+                        <div class="price">$1,550.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Pollo%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Flautas de Carne con Todo</h3>
+                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
+                        <div class="price">$1,550.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Carne%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Flautas de Papa con Todo</h3>
+                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
+                        <div class="price">$1,550.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Papa%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Chilaquiles Verdes con Todo</h3>
+                        <p>Queso, crema. Con pollo o huevito revuelto</p>
+                        <div class="price">$1,450.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Chilaquiles%20Verdes%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Gorditas de Carne de Puerco Deshebrada</h3>
+                        <p>La masa es de plátano macho</p>
+                        <div class="price">$1,450.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Gorditas%20de%20Carne%20de%20Puerco%20Deshebrada" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🥗 Entradas y Acompañamientos</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Banderillas Crunchy con Panko</h3>
+                        <p>Crujientes y deliciosas banderillas empanizadas</p>
+                        <div class="price">$1,250.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Banderillas%20Crunchy%20con%20Panko" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Crema de Espinaca con Crutones</h3>
+                        <p>Suave y cremosa sopa de espinaca</p>
+                        <div class="price">$1,250.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Crema%20de%20Espinaca%20con%20Crutones" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Arroz a la Mexicana</h3>
+                        <p>Tradicional acompañamiento mexicano</p>
+                        <div class="price">$550.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Arroz%20a%20la%20Mexicana" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Espárragos con Papitas a la Mantequilla</h3>
+                        <p>Verduras frescas salteadas en mantequilla</p>
+                        <div class="price">$850.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Espárragos%20con%20Papitas%20a%20la%20Mantequilla" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Ensalada Mexicana</h3>
+                        <p>Lechuga con crutones o tortilla juliana, topping de pollo deshebrado y trozitos de queso panela. Rebanadas de aguacate con ajonjolí y un toque de limón. Aderezos a elegir: Ranch, César, mostaza con miel.</p>
+                        <div class="price">$1,850.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Ensalada%20Mexicana" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>Charola de Fruta de la Estación</h3>
+                        <p>Papaya, Melón, Sandía. Agrega: granola o avena</p>
+                        <div class="price">$1,750.00</div>
+                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Fruta%20de%20la%20Estación" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <h3>🍅 TOMATE CULINARIO</h3>
+            <p>📱 Haz clic en cualquier platillo para pedirlo por WhatsApp</p>
+            <p>✨ Servicios gastronómicos de calidad premium</p>
+            <p>🎯 Especializados en eventos corporativos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Movement
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 20 + 'px';
+            cursor.style.top = e.clientY - 20 + 'px';
+        });
+
+        // Cursor effects on different elements
+        document.querySelectorAll('.whatsapp-btn, .menu-item, a, button').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.3) rotate(10deg)';
+                cursor.querySelector('.tomato-cursor').style.animation = 'bounce 0.5s ease-in-out infinite';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.querySelector('.tomato-cursor').style.animation = 'bounce 2s ease-in-out infinite';
+            });
+        });
+
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+        });
+
+        // Efecto de parallax suave
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Animación de aparición de elementos
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+
+        // Efecto de click en botones
+        document.querySelectorAll('.whatsapp-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Permitir que el enlace funcione normalmente
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                btn.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
