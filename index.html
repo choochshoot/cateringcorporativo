@@ -127,21 +127,40 @@
     .header {
         min-height: auto;
         padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
     }
-    .header h1 {
-        font-size: 2.5rem;
+
+    .header .parallax-bg {
+        height: 120%; /* un poco menor en móvil */
+        background-position: center center;
+        background-size: cover;
     }
+
+    .header-content {
+        gap: 15px;
+        text-align: center;
+        z-index: 3;
+    }
+
     .logo {
         width: 80px;
         height: auto;
     }
-    .header-content {
-        gap: 15px;
+
+    .header h1 {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin: 0;
+        line-height: 1.2;
     }
+
     .header .subtitle {
         font-size: 1.2rem;
+        color: #ffffff;
     }
 }
+
 
 
         @keyframes logoFloat {
