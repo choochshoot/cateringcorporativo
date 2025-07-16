@@ -35,6 +35,19 @@
     padding: 20px;
     text-align: center;
     flex-direction: column;
+    background: url('https://i.imgur.com/ZNFXYn3.gif') center center / cover no-repeat;
+}
+
+
+.header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 1;
 }
 
 
@@ -44,11 +57,12 @@
     left: 0;
     width: 100%;
     height: 150%;
-    background: linear-gradient(135deg, #00ff88 0%, #ffff00 50%, #ff1493 100%);
+    background: url('https://i.imgur.com/ZNFXYn3.gif') center center / cover no-repeat;
     z-index: 1;
     transform: translateY(0);
     transition: transform 0.1s linear;
 }
+
 
 .header-content {
     position: relative;
@@ -70,11 +84,13 @@
     padding: 20px;
     text-align: center;
     flex-direction: column;
+    background: url('https://i.imgur.com/fx65Zxd.gif') center center / cover no-repeat;
 }
+
 
 .header-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,22 +101,18 @@
 .header h1 {
     font-size: 4rem;
     font-weight: bold;
-    background: linear-gradient(45deg, #1a1a1a, #333);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff; /* blanco sólido */
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    text-align: center;
-    word-break: break-word;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* opcional, para mejor contraste */
 }
 
 .header .subtitle {
     font-size: 1.5rem;
-    color: #1a1a1a;
+    color: #ffffff; /* blanco sólido */
     font-weight: 600;
-    text-align: center;
-    max-width: 90%;
 }
+
+
 
 .logo {
     width: 120px;
@@ -138,20 +150,19 @@
         }
 
         .header h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #1a1a1a, #333);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffffff; /* blanco sólido */
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* opcional, para mejor contraste */
+}
 
-        .header .subtitle {
-            font-size: 1.5rem;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
+.header .subtitle {
+    font-size: 1.5rem;
+    color: #ffffff; /* blanco sólido */
+    font-weight: 600;
+}
+
 
         /* Info Banner */
         .info-banner {
@@ -419,7 +430,7 @@
     <div class="container">
         <div class="header-content">
             <img src="https://i.imgur.com/VfcTMiK.png" alt="Tomate Culinario Logo" class="logo">
-            <h1>🍅 TOMATE CULINARIO</h1>
+            <h1> TOMATE CULINARIO</h1>
             <p class="subtitle">Servicios Gastronómicos Corporativos Premium</p>
         </div>
     </div>
