@@ -1,1160 +1,346 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomate Culinario - Servicios Corporativos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Preloader Styles */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .-content {
-            text-align: center;
-            position: relative;
-        }
-
-        .-gif {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 0 15px #00ff88) drop-shadow(0 0 25px #ffff00);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .preloader-text {
-            font-family: 'Arial', sans-serif;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 
-                0 0 10px #00ff88,
-                0 0 20px #00ff88,
-                0 0 30px #ffff00,
-                0 0 40px #ffff00;
-            animation: textGlow 2s ease-in-out infinite alternate;
-            margin-top: 20px;
-        }
-
-        .loading-dots {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #00ff88;
-            animation: bounce 1.4s infinite ease-in-out;
-            box-shadow: 0 0 20px #00ff88;
-        }
-
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        .dot:nth-child(3) { animation-delay: 0s; }
-
-        /* Preloader Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        @keyframes textGlow {
-            0% { 
-                text-shadow: 
-                    0 0 10px #00ff88,
-                    0 0 20px #00ff88,
-                    0 0 30px #ffff00;
-            }
-            100% { 
-                text-shadow: 
-                    0 0 20px #ffff00,
-                    0 0 30px #ff1493,
-                    0 0 40px #ff1493;
-            }
-        }
-
-        @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-                background: #00ff88;
-                box-shadow: 0 0 20px #00ff88;
-            }
-            40% { 
-                transform: scale(1);
-                background: #ffff00;
-                box-shadow: 0 0 30px #ffff00;
-            }
-        }
-
-        /* Neon White Theme */
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            color: #333333;
-            overflow-x: hidden;
-            cursor: none;
-        }
-
-        body.loaded #preloader {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-            padding: 40px 20px;
-            text-align: center;
-            flex-direction: column;
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
-        }
-
-        .header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/MlbEWT0.gif') center center / cover no-repeat;
-            opacity: 0.6;
-            z-index: 1;
-        }
-
-        .header::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, 
-                rgba(0,255,136,0.1) 0%, 
-                rgba(255,255,0,0.1) 25%, 
-                rgba(255,20,147,0.1) 50%, 
-                rgba(0,255,136,0.1) 75%, 
-                rgba(255,255,0,0.1) 100%);
-            z-index: 2;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-        }
-
-        .logo {
-            width: 150px;
-            height: auto;
-            filter: 
-                drop-shadow(0 0 15px #00ff88)
-                drop-shadow(0 0 25px #ffff00)
-                drop-shadow(0 0 35px #ff1493);
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        .header h1 {
-            font-size: 4.5rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 
-                0 0 10px #00ff88,
-                0 0 20px #00ff88,
-                0 0 30px #ffff00,
-                0 0 40px #ffff00;
-            margin-bottom: 10px;
-            animation: titlePulse 3s ease-in-out infinite;
-        }
-
-        .header .subtitle {
-            font-size: 1.8rem;
-            color: #ffffff;
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(0,255,136,0.8);
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { 
-                text-shadow: 
-                    0 0 10px #00ff88,
-                    0 0 20px #00ff88,
-                    0 0 30px #ffff00;
-            }
-            50% { 
-                text-shadow: 
-                    0 0 20px #ffff00,
-                    0 0 30px #ff1493,
-                    0 0 40px #ff1493;
-            }
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { 
-                transform: translateY(0) rotate(0deg);
-                filter: 
-                    drop-shadow(0 0 15px #00ff88)
-                    drop-shadow(0 0 25px #ffff00);
-            }
-            50% { 
-                transform: translateY(-20px) rotate(5deg);
-                filter: 
-                    drop-shadow(0 0 25px #ffff00)
-                    drop-shadow(0 0 35px #ff1493);
-            }
-        }
-
-        /* Info Banner */
-        .info-banner {
-            background: linear-gradient(90deg, #00ff88, #ffff00, #ff1493);
-            padding: 25px;
-            text-align: center;
-            margin: 30px 0;
-            border-radius: 20px;
-            box-shadow: 
-                0 10px 30px rgba(0,255,136,0.4),
-                0 0 50px rgba(255,255,0,0.3),
-                inset 0 0 20px rgba(255,255,255,0.5);
-            animation: bannerGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes bannerGlow {
-            0% {
-                box-shadow: 
-                    0 10px 30px rgba(0,255,136,0.4),
-                    0 0 50px rgba(255,255,0,0.3);
-            }
-            100% {
-                box-shadow: 
-                    0 10px 30px rgba(255,255,0,0.4),
-                    0 0 50px rgba(255,20,147,0.3);
-            }
-        }
-
-        .info-banner h2 {
-            color: #1a1a1a;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-
-        .info-banner p {
-            color: #333;
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(255,255,255,0.8);
-        }
-
-        /* Menu Grid */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 35px;
-            padding: 50px 0;
-        }
-
-        .menu-item {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 
-                0 15px 35px rgba(0,0,0,0.1),
-                0 0 30px rgba(0,255,136,0.2);
-            border: 2px solid transparent;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, 
-                rgba(0,255,136,0.1) 0%, 
-                rgba(255,255,0,0.1) 50%, 
-                rgba(255,20,147,0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-
-        .menu-item::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #00ff88, #ffff00, #ff1493, #00ff88);
-            border-radius: 27px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .menu-item:hover::before {
-            opacity: 1;
-        }
-
-        .menu-item:hover::after {
-            opacity: 1;
-            animation: borderRotate 3s linear infinite;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 
-                0 25px 50px rgba(0,255,136,0.3),
-                0 0 60px rgba(255,255,0,0.3);
-        }
-
-        @keyframes borderRotate {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        .menu-item-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .menu-item h3 {
-            color: #1a1a1a;
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #00ff88, #ffff00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(0,255,136,0.3);
-        }
-
-        .menu-item p {
-            color: #666666;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
-
-        .price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff1493, #ffff00, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            text-shadow: 0 0 20px rgba(255,20,147,0.3);
-            position: relative;
-            display: inline-block;
-        }
-
-        .price::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, #00ff88, #ffff00, #ff1493);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .menu-item:hover .price::after {
-            transform: scaleX(1);
-        }
-
-        .whatsapp-btn {
-            background: linear-gradient(135deg, #00ff88, #ffff00);
-            color: #1a1a1a;
-            padding: 18px 35px;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            box-shadow: 
-                0 8px 25px rgba(0,255,136,0.4),
-                inset 0 2px 10px rgba(255,255,255,0.5);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .whatsapp-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #ffff00, #ff1493);
-            transition: left 0.4s ease;
-            z-index: -1;
-        }
-
-        .whatsapp-btn:hover::before {
-            left: 0;
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 
-                0 15px 35px rgba(255,255,0,0.4),
-                0 0 40px rgba(255,20,147,0.3),
-                inset 0 2px 10px rgba(255,255,255,0.8);
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-
-        /* Categories */
-        .category-section {
-            margin: 70px 0;
-        }
-
-        .category-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 50px;
-            background: linear-gradient(45deg, #00ff88, #ffff00, #ff1493);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            text-shadow: 0 0 30px rgba(0,255,136,0.3);
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .category-title::before,
-        .category-title::after {
-            content: '✨';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            opacity: 0.7;
-            animation: sparkle 2s ease-in-out infinite;
-        }
-
-        .category-title::before {
-            left: -50px;
-        }
-
-        .category-title::after {
-            right: -50px;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(1); }
-            50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            padding: 60px 0;
-            text-align: center;
-            border-top: 5px solid;
-            border-image: linear-gradient(45deg, #00ff88, #ffff00, #ff1493) 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/fx65Zxd.gif') center center / cover no-repeat;
-            opacity: 0.1;
-            animation: backgroundScroll 20s linear infinite;
-        }
-
-        @keyframes backgroundScroll {
-            0% { background-position: 0 0; }
-            100% { background-position: 100% 100%; }
-        }
-
-        .footer h3 {
-            color: #ffffff;
-            margin-bottom: 25px;
-            font-size: 2.2rem;
-            text-shadow: 
-                0 0 10px #00ff88,
-                0 0 20px #00ff88;
-            position: relative;
-            z-index: 1;
-        }
-
-        .footer p {
-            color: #ffffff;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 5px rgba(0,255,136,0.5);
-        }
-
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.15s ease;
-            mix-blend-mode: difference;
-        }
-
-        .tomato-cursor {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff3333);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: relative;
-            animation: bounce 2s ease-in-out infinite;
-            filter: 
-                drop-shadow(0 0 10px #ff3333)
-                drop-shadow(0 0 20px #ffff00);
-        }
-
-        .tomato-cursor::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 15px;
-            background: #00ff88;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            box-shadow: 
-                -8px -3px 0 -3px #00ff88,
-                8px -3px 0 -3px #00ff88;
-        }
-
-        .tomato-cursor::after {
-            content: '😊';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,1));
-        }
-
-        .custom-cursor:hover {
-            transform: scale(1.3);
-        }
-
-        .whatsapp-btn:hover ~ .custom-cursor,
-        .menu-item:hover ~ .custom-cursor {
-            transform: scale(1.5) rotate(15deg);
-        }
-
-        .whatsapp-btn:hover ~ .custom-cursor .tomato-cursor {
-            background: radial-gradient(circle at 30% 30%, #ffff00, #ff1493);
-            animation: bounce 0.4s ease-in-out infinite;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 3rem;
-            }
-
-            .logo {
-                width: 120px;
-            }
-
-            .header-content {
-                gap: 20px;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .menu-item {
-                padding: 25px;
-            }
-
-            .category-title {
-                font-size: 2.2rem;
-            }
-
-            .preloader-text {
-                font-size: 1.8rem;
-            }
-
-            .preloader-gif {
-                width: 150px;
-                height: 150px;
-            }
-        }
-
-        /* Animations for menu items */
-        @keyframes itemGlow {
-            0%, 100% { 
-                box-shadow: 
-                    0 15px 35px rgba(0,255,136,0.2),
-                    0 0 30px rgba(0,255,136,0.1);
-            }
-            50% { 
-                box-shadow: 
-                    0 15px 35px rgba(255,255,0,0.3),
-                    0 0 40px rgba(255,255,0,0.2);
-            }
-        }
-
-        .menu-item:nth-child(odd) {
-            animation: itemGlow 4s ease-in-out infinite;
-        }
-
-        .menu-item:nth-child(even) {
-            animation: itemGlow 4s ease-in-out infinite 2s;
-        }
-
-        /* Scroll animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Ripple effect for buttons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* GIF Container */
-        .gif-container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .menu-gif {
-            max-width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 
-                0 10px 30px rgba(0,255,136,0.3),
-                0 0 40px rgba(255,255,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .menu-gif:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 15px 40px rgba(0,255,136,0.4),
-                0 0 50px rgba(255,20,147,0.3);
-        }
-    </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Tomate Culinario | Catering Corporativo CDMX</title>
+
+<meta name="description" content="Servicios gastronómicos corporativos premium en Ciudad de México. Platillos gourmet, lunch box, charcutería y pasteles personalizados para empresas.">
+
+<link rel="canonical" href="https://tomateculinario.com">
+
+<meta property="og:title" content="Tomate Culinario Catering">
+<meta property="og:description" content="Catering corporativo premium en Ciudad de México">
+<meta property="og:image" content="https://i.imgur.com/sXuAcz8.gif">
+
+<link rel="preconnect" href="https://i.imgur.com">
+<link rel="preload" as="image" href="https://i.imgur.com/sXuAcz8.gif">
+
+<!-- Google Tag Manager -->
+
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;
+j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXXXXX');
+</script>
+
+<!-- Schema SEO -->
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"Restaurant",
+"name":"Tomate Culinario",
+"servesCuisine":"Mexican",
+"address":{
+"@type":"PostalAddress",
+"addressLocality":"Ciudad de México",
+"addressCountry":"MX"
+}
+}
+</script>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+background:#fafafa;
+color:#1a1a1a;
+}
+
+/* HERO */
+
+.hero{
+position:relative;
+min-height:420px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+overflow:hidden
+}
+
+.hero::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/MlbEWT0.gif") center/cover no-repeat;
+opacity:.8
+}
+
+.hero-overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,#000000cc,#00000080)
+}
+
+.hero-content{
+position:relative;
+z-index:2
+}
+
+.logo{
+width:150px;
+margin-bottom:20px
+}
+
+/* MENU STICKY */
+
+.quick-menu{
+background:white;
+padding:14px;
+position:sticky;
+top:0;
+z-index:50;
+box-shadow:0 2px 10px rgba(0,0,0,.08)
+}
+
+.quick-scroll{
+display:flex;
+overflow-x:auto;
+gap:10px
+}
+
+.quick-card{
+flex-shrink:0;
+background:white;
+padding:10px 16px;
+border-radius:40px;
+font-size:.9rem;
+text-decoration:none;
+color:#111;
+font-weight:600;
+box-shadow:0 4px 12px rgba(0,0,0,.08)
+}
+
+/* GRID */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px
+}
+
+.category{
+margin-top:70px
+}
+
+.category h2{
+text-align:center;
+margin-bottom:25px
+}
+
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:28px
+}
+
+.menu-card{
+background:white;
+border-radius:18px;
+padding:26px;
+box-shadow:0 8px 25px rgba(0,0,0,.08)
+}
+
+.price{
+font-size:1.6rem;
+font-weight:bold;
+margin:10px 0
+}
+
+.btn{
+display:inline-block;
+background:#25D366;
+color:white;
+padding:10px 18px;
+border-radius:40px;
+text-decoration:none;
+font-weight:600
+}
+
+.menu-gif{
+width:100%;
+border-radius:14px
+}
+
+/* WhatsApp Float */
+
+.whatsapp-float{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:16px;
+border-radius:50%;
+font-size:22px;
+box-shadow:0 6px 20px rgba(0,0,0,.2);
+text-decoration:none;
+}
+
+/* FOOTER */
+
+footer{
+margin-top:80px;
+background:#111;
+color:white;
+padding:40px;
+text-align:center
+}
+
+</style>
+
 </head>
+
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="preloader-content">
-            <img src="preloader/comida_cargando.gif" alt="Cargando comida" class="preloader-gif">
-            <div class="preloader-text">Cargando tu comida🥘</div>
-            <div class="loading-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" id="cursor">
-        <div class="tomato-cursor"></div>
-    </div>
+<noscript>
+<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0"
+style="display:none"></iframe>
+</noscript>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <img src="https://i.imgur.com/VfcTMiK.png" alt="Tomate Culinario Logo" class="logo">
-                <h1>TOMATE CULINARIO</h1>
-                <p class="subtitle">Servicios Gastronómicos Corporativos Premium</p>
-            </div>
-        </div>
-    </header>
+<!-- HERO -->
 
-    <div class="container">
-        <!-- Info Banner -->
-        <div class="info-banner">
-            <h2>📋 Información Importante</h2>
-            <p>Cada charola es para 8 a 10 personas • Precios + IVA + Delivery 🚛</p>
-        </div>
+<section class="hero">
 
-        <!-- Platillos Principales -->
-        <div class="category-section">
-            <h2 class="category-title">🍽️ Platillos Principales</h2>
-            <div class="menu-grid">
-                <!-- Soufflé de Pollo en Mole -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Soufflé de Pollo en Mole</h3>
-                        <p>Delicioso soufflé con el tradicional sabor del mole mexicano</p>
-                        <div class="price">$1,650.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Soufflé%20de%20Pollo%20en%20Mole" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="hero-overlay"></div>
 
-                <!-- Chiles Rellenos -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Chiles Rellenos: Pollo o Carne</h3>
-                        <p>Auténticos chiles rellenos con tu proteína favorita</p>
-                        <div class="price">$1,850.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Chiles%20Rellenos%20de%20Pollo%20o%20Carne" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="hero-content">
 
-                <!-- Enchiladas Verdes -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Enchiladas Verdes con Queso y Pollo</h3>
-                        <p>Enchiladas tradicionales bañadas en salsa verde</p>
-                        <div class="price">$1,250.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Enchiladas%20Verdes%20con%20Queso%20y%20Pollo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<img src="https://i.imgur.com/sXuAcz8.gif"
+class="logo"
+alt="Tomate Culinario Logo">
 
-                <!-- GIF Brunch -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content gif-container">
-                        <img src="https://i.imgur.com/nNnTO2x.gif" alt="Brunch GIF" class="menu-gif">
-                    </div>
-                </div>
+<h1>TOMATE CULINARIO</h1>
 
-                <!-- Lasaña de Carne -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Lasaña de Carne</h3>
-                        <p>Incluye una baguette natural</p>
-                        <div class="price">$1,550.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Carne" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<p>Servicios Gastronómicos Corporativos Premium</p>
 
-                <!-- Lasaña de Espinaca -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Lasaña de Espinaca a los Tres Quesos</h3>
-                        <p>Incluye una baguette natural</p>
-                        <div class="price">$1,750.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Espinaca%20a%20los%20Tres%20Quesos" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+</div>
 
-                <!-- Lasaña de Pollo Tipo Tinga -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Lasaña de Pollo Tipo Tinga</h3>
-                        <p>Incluye una baguette natural</p>
-                        <div class="price">$1,650.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Lasaña%20de%20Pollo%20Tipo%20Tinga" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+</section>
 
-                <!-- Espagueti a la Boloñesa -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Espagueti a la Boloñesa</h3>
-                        <p>Pasta italiana con salsa boloñesa tradicional</p>
-                        <div class="price">$1,450.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Espagueti%20a%20la%20Boloñesa" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<!-- NAV -->
 
-                <!-- Soufflé de Papa -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Soufflé de Papa, Jamón Pavo, Gouda y Parmesano</h3>
-                        <p>Exquisita combinación de sabores europeos</p>
-                        <div class="price">$1,450.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Soufflé%20de%20Papa%20Jamón%20Pavo%20Gouda%20y%20Parmesano" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<section class="quick-menu">
 
-                <!-- GIF Soufflé Extra -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content gif-container">
-                        <img src="https://i.imgur.com/4wxO2TG.gif" alt="Soufflé Extra GIF" class="menu-gif">
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="quick-scroll">
 
-        <!-- Comida Mexicana -->
-        <div class="category-section">
-            <h2 class="category-title">🌮 Comida Mexicana</h2>
-            <div class="menu-grid">
-                <!-- Flautas de Pollo -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Flautas de Pollo con Todo</h3>
-                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
-                        <div class="price">$1,550.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Pollo%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<a href="#principales" class="quick-card">🍽 Platillos</a>
+<a href="#mexicanos" class="quick-card">🌮 Mexicanos</a>
+<a href="#lunch" class="quick-card">🍱 Lunch</a>
+<a href="#charcuteria" class="quick-card">🧀 Charcutería</a>
+<a href="#pasteles" class="quick-card">🎂 Pasteles</a>
 
-                <!-- Flautas de Carne -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Flautas de Carne con Todo</h3>
-                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
-                        <div class="price">$1,550.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Carne%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+</div>
 
-                <!-- Flautas de Papa -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Flautas de Papa con Todo</h3>
-                        <p>Crema, queso, salsa verde o roja, lechuga. 3 flautas por persona</p>
-                        <div class="price">$1,550.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Flautas%20de%20Papa%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+</section>
 
-                <!-- Chilaquiles Verdes -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Chilaquiles Verdes con Todo</h3>
-                        <p>Queso, crema. Con pollo o huevito revuelto</p>
-                        <div class="price">$1,450.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Chilaquiles%20Verdes%20con%20Todo" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="container">
 
-                <!-- Gorditas -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Gorditas de Carne de Puerco Deshebrada</h3>
-                        <p>La masa es de plátano macho</p>
-                        <div class="price">$1,450.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Gorditas%20de%20Carne%20de%20Puerco%20Deshebrada" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<!-- PRINCIPALES -->
 
-                <!-- GIF Gorditas -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content gif-container">
-                        <img src="https://i.imgur.com/4DAu2yo.gif" alt="GIF de Gorditas" class="menu-gif">
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="category" id="principales">
 
-        <!-- Entradas y Acompañamientos -->
-        <div class="category-section">
-            <h2 class="category-title">🥗 Entradas y Acompañamientos</h2>
-            <div class="menu-grid">
-                <!-- Banderillas -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Banderillas Crunchy con Panko</h3>
-                        <p>Crujientes y deliciosas banderillas empanizadas</p>
-                        <div class="price">$1,250.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Banderillas%20Crunchy%20con%20Panko" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<h2>Platillos Principales</h2>
 
-                <!-- Crema de Espinaca -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Crema de Espinaca con Crutones</h3>
-                        <p>Suave y cremosa sopa de espinaca</p>
-                        <div class="price">$1,250.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Crema%20de%20Espinaca%20con%20Crutones" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="menu-grid">
 
-                <!-- Arroz a la Mexicana -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Arroz a la Mexicana</h3>
-                        <p>Tradicional acompañamiento mexicano</p>
-                        <div class="price">$550.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Arroz%20a%20la%20Mexicana" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="menu-card"><h3>Soufflé Pollo Mole</h3><div class="price">$1,650</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Soufflé%20Pollo%20Mole">Pedir</a></div>
 
-                <!-- Espárragos -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Espárragos con Papitas a la Mantequilla</h3>
-                        <p>Verduras frescas salteadas en mantequilla</p>
-                        <div class="price">$850.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Espárragos%20con%20Papitas%20a%20la%20Mantequilla" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="menu-card"><h3>Chiles Rellenos</h3><div class="price">$1,850</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Chiles%20Rellenos">Pedir</a></div>
 
-                <!-- Ensalada Mexicana -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Ensalada Mexicana</h3>
-                        <p>Lechuga con crutones o tortilla juliana, topping de pollo deshebrado y trozitos de queso panela. Rebanadas de aguacate con ajonjolí y un toque de limón. Aderezos a elegir: Ranch, César, mostaza con miel.</p>
-                        <div class="price">$1,850.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Ensalada%20Mexicana" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="menu-card"><h3>Enchiladas Verdes</h3><div class="price">$1,250</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Enchiladas%20Verdes">Pedir</a></div>
 
-                <!-- Fruta de la Estación -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <h3>Charola de Fruta de la Estación</h3>
-                        <p>Papaya, Melón, Sandía. Agrega: granola o avena</p>
-                        <div class="price">$1,750.00</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20charola%20de%20Fruta%20de%20la%20Estación" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="menu-card"><h3>Lasaña Carne</h3><div class="price">$1,550</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Lasaña%20Carne">Pedir</a></div>
 
-        <!-- Box Lunch y Bolsas Lunch -->
-        <div class="category-section">
-            <h2 class="category-title">🍱 Box Lunch y Bolsas Lunch</h2>
-            <div class="menu-grid">
-                <!-- Bolsa Brunch -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <div class="gif-container">
-                            <img src="https://i.imgur.com/OSHT6iG.gif" alt="Bolsa Brunch" class="menu-gif">
-                        </div>
-                        <h3>Bolsa Brunch</h3>
-                        <p>Incluye croissant de jamón de pechuga de pavo y botellita de agua. El precio cambia al poner más productos a tu bolsa brunch.</p>
-                        <div class="price">$180.00 MXN</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20la%20Bolsa%20Brunch" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
+<div class="menu-card"><h3>Lasaña Espinaca</h3><div class="price">$1,750</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Lasaña%20Espinaca">Pedir</a></div>
 
-                <!-- Box Lunch Brunch -->
-                <div class="menu-item fade-in">
-                    <div class="menu-item-content">
-                        <div class="gif-container">
-                            <img src="https://i.imgur.com/q9wRSZN.gif" alt="Box Lunch Brunch" class="menu-gif">
-                        </div>
-                        <h3>Box Lunch Brunch</h3>
-                        <p>Chapata gourmet de pollo o jamón con lechuga, aguacate, aderezo de mango con ligero picor, mantequilla al ajo horneada en panes, barra energética, galleta choco chips, 1 manzana y agua natural.</p>
-                        <div class="price">$400.00 MXN</div>
-                        <a href="https://wa.me/5521512563?text=Hola%20quiero%20el%20Box%20Lunch%20Brunch" class="whatsapp-btn">🟢 Pedir por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="menu-card"><h3>Lasaña Pollo Tinga</h3><div class="price">$1,650</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Lasaña%20Pollo">Pedir</a></div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <h3>🍅 TOMATE CULINARIO</h3>
-            <p>📱 Haz clic en cualquier platillo para pedirlo por WhatsApp</p>
-            <p>✨ Servicios gastronómicos de calidad premium</p>
-            <p>🎯 Especializados en eventos corporativos</p>
-            <p>📍 Ciudad de México</p>
-        </div>
-    </footer>
+<div class="menu-card"><h3>Espagueti Boloñesa</h3><div class="price">$1,450</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Espagueti">Pedir</a></div>
 
-    <script>
-        // Preloader
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('preloader').style.opacity = '0';
-                document.getElementById('preloader').style.visibility = 'hidden';
-                document.body.classList.add('loaded');
-                
-                // Iniciar animaciones después del preloader
-                initAnimations();
-            }, 2000); // 2 segundos de preloader
-        });
+<div class="menu-card"><h3>Soufflé Papa Jamón</h3><div class="price">$1,450</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Soufflé%20Papa">Pedir</a></div>
 
-        // Custom Cursor Movement
-        const cursor = document.getElementById('cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 25 + 'px';
-            cursor.style.top = e.clientY - 25 + 'px';
-        });
+</div>
 
-        // Cursor effects
-        document.querySelectorAll('.whatsapp-btn, .menu-item, a, button').forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5) rotate(15deg)';
-                cursor.querySelector('.tomato-cursor').style.animation = 'bounce 0.5s ease-in-out infinite';
-                cursor.querySelector('.tomato-cursor').style.background = 'radial-gradient(circle at 30% 30%, #ffff00, #ff1493)';
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.querySelector('.tomato-cursor').style.animation = 'bounce 2s ease-in-out infinite';
-                cursor.querySelector('.tomato-cursor').style.background = 'radial-gradient(circle at 30% 30%, #ff6b6b, #ff3333)';
-            });
-        });
+</section>
 
-        // Hide cursor when leaving window
-        document.addEventListener('mouseleave', () => {
-            cursor.style.opacity = '0';
-        });
+<!-- MEXICANA -->
 
-        document.addEventListener('mouseenter', () => {
-            cursor.style.opacity = '1';
-        });
+<section class="category" id="mexicanos">
 
-        // Scroll animations
-        function initAnimations() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
+<h2>Comida Mexicana</h2>
 
-            fadeElements.forEach(element => {
-                observer.observe(element);
-            });
+<div class="menu-grid">
 
-            // Parallax effect
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const header = document.querySelector('.header');
-                header.style.transform = `translateY(${scrolled * 0.2}px)`;
-            });
-        }
+<div class="menu-card"><h3>Flautas Pollo</h3><div class="price">$1,550</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Flautas%20Pollo">Pedir</a></div>
 
-        // Ripple effect for buttons
-        document.querySelectorAll('.whatsapp-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const ripple = document.createElement('span');
-                const rect = btn.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                btn.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
+<div class="menu-card"><h3>Flautas Carne</h3><div class="price">$1,550</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Flautas%20Carne">Pedir</a></div>
 
-        // Auto-hide cursor after inactivity
-        let cursorTimeout;
-        function resetCursorTimeout() {
-            cursor.style.opacity = '1';
-            clearTimeout(cursorTimeout);
-            cursorTimeout = setTimeout(() => {
-                cursor.style.opacity = '0.3';
-            }, 3000);
-        }
+<div class="menu-card"><h3>Flautas Papa</h3><div class="price">$1,550</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Flautas%20Papa">Pedir</a></div>
 
-        document.addEventListener('mousemove', resetCursorTimeout);
-        document.addEventListener('click', resetCursorTimeout);
+<div class="menu-card"><h3>Chilaquiles Verdes</h3><div class="price">$1,450</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Chilaquiles">Pedir</a></div>
 
-        // WhatsApp message customization
-        document.querySelectorAll('.whatsapp-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const productName = this.closest('.menu-item').querySelector('h3').textContent;
-                const message = `¡Hola! Me interesa pedir: ${productName}. ¿Podrían darme más información?`;
-                const encodedMessage = encodeURIComponent(message);
-                this.href = `https://wa.me/525521512563?text=${encodedMessage}`;
-            });
-        });
-    </script>
+<div class="menu-card"><h3>Gorditas de Puerco</h3><div class="price">$1,450</div><a class="btn" href="https://wa.me/525521512563?text=Quiero%20Gorditas">Pedir</a></div>
+
+</div>
+
+</section>
+
+<!-- LUNCH -->
+
+<section class="category" id="lunch">
+
+<h2>Lunch Box</h2>
+
+<div class="menu-grid">
+
+<div class="menu-card">
+<img src="https://i.imgur.com/OSHT6iG.gif" class="menu-gif" loading="lazy">
+<h3>Bolsa Brunch</h3>
+<div class="price">$180</div>
+<a class="btn" href="https://wa.me/525521512563?text=Quiero%20Bolsa%20Brunch">Pedir</a>
+</div>
+
+<div class="menu-card">
+<img src="https://i.imgur.com/q9wRSZN.gif" class="menu-gif" loading="lazy">
+<h3>Box Lunch Brunch</h3>
+<div class="price">$400</div>
+<a class="btn" href="https://wa.me/525521512563?text=Quiero%20Box%20Lunch">Pedir</a>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<a href="https://wa.me/525521512563" class="whatsapp-float">💬</a>
+
+<footer>
+
+<h3>Tomate Culinario</h3>
+<p>Catering corporativo en Ciudad de México</p>
+
+</footer>
+
 </body>
 </html>
-
-
-
-
+```
