@@ -179,6 +179,78 @@ width:100%;
 border-radius:14px
 }
 
+/* INFO BANNER */
+
+.info-banner{
+
+background:#fff;
+
+text-align:center;
+
+padding:14px;
+
+font-size:.9rem;
+
+color:#444;
+
+border-bottom:1px solid rgba(0,0,0,0.06);
+
+}
+
+.info-banner strong{
+color:#000;
+}
+
+/* SCROLL INDICATOR */
+
+.scroll-indicator{
+
+display:flex;
+
+justify-content:center;
+
+gap:6px;
+
+margin-top:6px;
+
+}
+
+.scroll-indicator span{
+
+width:6px;
+
+height:6px;
+
+background:#bbb;
+
+border-radius:50%;
+
+opacity:.8;
+
+animation:pulse 1.4s infinite;
+
+}
+
+.scroll-indicator span:nth-child(2){
+
+animation-delay:.2s;
+
+}
+
+.scroll-indicator span:nth-child(3){
+
+animation-delay:.4s;
+
+}
+
+@keyframes pulse{
+
+0%{opacity:.3; transform:scale(1)}
+50%{opacity:1; transform:scale(1.2)}
+100%{opacity:.3; transform:scale(1)}
+
+}
+
 /* WhatsApp Float */
 
 .whatsapp-float{
@@ -236,6 +308,17 @@ alt="Tomate Culinario Logo">
 
 </section>
 
+
+<!-- Banner informativo -->
+
+<section class="info-banner">
+
+<p>🍽 Cada charola rinde para <strong>8 a 10 personas</strong> • Precios + IVA</p>
+
+</section>
+
+
+
 <!-- NAV -->
 
 <section class="quick-menu">
@@ -253,6 +336,16 @@ alt="Tomate Culinario Logo">
 </section>
 
 <div class="container">
+    
+<div class="scroll-indicator">
+
+<span></span>
+<span></span>
+<span></span>
+
+</div>
+
+
 
 <!-- PRINCIPALES -->
 
